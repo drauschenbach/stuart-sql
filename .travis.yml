@@ -17,6 +17,7 @@ install:
   - luarocks install busted
   - luarocks install luacheck
   - luarocks install stuart
+  - luarocks install uuid
 
 script:
   - luacheck --std max+busted --codes src spec --no-self --ignore 213 311 611 631
