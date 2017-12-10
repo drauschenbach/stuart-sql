@@ -1,8 +1,9 @@
 local class = require 'middleclass'
+local SparkConf = require 'stuart.SparkConf'
 local SparkContext = require 'stuart.Context'
 local uuid = require 'uuid'
 
-local SparkSession_Builder = class('SparkSession$Builder')
+local SparkSession_Builder = class('SparkSession_Builder')
 
 function SparkSession_Builder:initialize()
   self.options = {}
@@ -37,7 +38,7 @@ function SparkSession_Builder:getOrCreate()
   
   -- If the current thread does not have an active session, get it from the global session.
   local session = SparkSession.getDefaultSession()
-  if session ~= nil --[[ and not session.sparkContext:isStopped() --]] then
+  if session ~= nil and not session.sparkContext:isStopped() then
     --options.foreach { case (k, v) => session.sessionState.conf.setConfString(k, v) }
     --if (options.nonEmpty) {
     --  logWarning("Using an existing SparkSession; some configuration may not take effect.")
@@ -50,17 +51,17 @@ function SparkSession_Builder:getOrCreate()
   if sparkContext == nil then
     -- set app name if not given
     local randomAppName = uuid()
-    --val sparkConf = new SparkConf()
-    --options.foreach { case (k, v) => sparkConf.set(k, v) }
-    --if (!sparkConf.contains("spark.app.name")) {
-    --  sparkConf.setAppName(randomAppName)
-    --}
-    --val sc = SparkContext.getOrCreate(sparkConf)
-    local sc = SparkContext:new(self.options['spark.master'], randomAppName)
-    --options.foreach { case (k, v) => sc.conf.set(k, v) }
-    --if (!sc.conf.contains("spark.app.name")) {
-    --  sc.conf.setAppName(randomAppName)
-    --}
+    local sparkConf = SparkConf:new()
+    for k,v in pairs(self.options) do sparkConf:set(k, v) end
+    if not sparkConf:contains('spark.app.name') then
+      sparkConf:setAppName(randomAppName)
+    end
+    --TODO local sc = SparkContext:getOrCreate(sparkConf)
+    local sc = SparkContext:new(sparkConf)
+    for k,v in pairs(self.options) do sc.conf:set(k, v) end
+    if not sc.conf:contains('spark.app.name') then
+      sc.conf:setAppName(randomAppName)
+    end
     sparkContext = sc
   end
   
