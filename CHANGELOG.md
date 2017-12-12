@@ -1,6 +1,6 @@
-## [0.1.5] - 2017-12-10
+## [0.1.5-1] - 2017-12-12
 ### Added:
-- Support reading a Parquet file into an RDD
+- Support reading a Parquet file into an RDD. Supports both local files and WebHDFS.
 
 ## [0.1.3] - 2017-11-11
 ### Added:

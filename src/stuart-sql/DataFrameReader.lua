@@ -1,4 +1,5 @@
 local class = require 'middleclass'
+local fileSystemFactory = require 'stuart.fileSystemFactory'
 local parquet = require 'parquet'
 
 local DataFrameReader = class('DataFrameReader')
@@ -17,9 +18,15 @@ function DataFrameReader:schema(schema)
   return self
 end
 
-function DataFrameReader:parquet(file)
+function DataFrameReader:parquet(path)
   self:format('parquet')
-  local reader = parquet.ParquetReader.openFile(file)
+  local fs, openPath = fileSystemFactory.createForOpenPath(path)
+  if fs:isDirectory(openPath) then
+    error('not implemented yet')
+  end
+  
+  local buffer = fs:open(openPath)
+  local reader = parquet.ParquetReader.openString(buffer)
   local cursor = reader:getCursor()
   
   local data = {}
