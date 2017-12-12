@@ -1,4 +1,5 @@
 local class = require 'middleclass'
+local fileSystemFactory = require 'stuart.fileSystemFactory'
 local parquet = require 'parquet'
 
 local DataFrameReader = class('DataFrameReader')
@@ -17,9 +18,27 @@ function DataFrameReader:schema(schema)
   return self
 end
 
-function DataFrameReader:parquet(file)
+function DataFrameReader:parquet(path)
   self:format('parquet')
-  local reader = parquet.ParquetReader.openFile(file)
+  local fs, openPath = fileSystemFactory.createForOpenPath(path)
+  if fs:isDirectory(openPath) then
+    local fileStatuses = fs:listStatus(openPath)
+    local rdds = {}
+    for _,fileStatus in ipairs(fileStatuses) do
+      if fileStatus.type == 'FILE' and fileStatus.pathSuffix:find('.parquet') then
+        rdds[#rdds+1] = self:parquet(path .. '/' .. fileStatus.pathSuffix):rdd()
+      end
+    end
+    local df = {
+      rdd = function()
+        return self.sparkSession.sparkContext:union(rdds)
+      end
+    }
+    return df
+  end
+  
+  local buffer = fs:open(openPath)
+  local reader = parquet.ParquetReader.openString(buffer)
   local cursor = reader:getCursor()
   
   local data = {}
