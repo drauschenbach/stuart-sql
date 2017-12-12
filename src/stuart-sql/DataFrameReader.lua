@@ -22,7 +22,19 @@ function DataFrameReader:parquet(path)
   self:format('parquet')
   local fs, openPath = fileSystemFactory.createForOpenPath(path)
   if fs:isDirectory(openPath) then
-    error('not implemented yet')
+    local fileStatuses = fs:listStatus(openPath)
+    local rdds = {}
+    for _,fileStatus in ipairs(fileStatuses) do
+      if fileStatus.type == 'FILE' and fileStatus.pathSuffix:find('.parquet') then
+        rdds[#rdds+1] = self:parquet(path .. '/' .. fileStatus.pathSuffix):rdd()
+      end
+    end
+    local df = {
+      rdd = function()
+        return self.sparkSession.sparkContext:union(rdds)
+      end
+    }
+    return df
   end
   
   local buffer = fs:open(openPath)
