@@ -25,7 +25,12 @@ function DataFrameReader:parquet(path)
     local fileStatuses = fs:listStatus(openPath)
     local rdds = {}
     for _,fileStatus in ipairs(fileStatuses) do
-      if fileStatus.type == 'FILE' and fileStatus.pathSuffix:find('.parquet') then
+      local firstChar = fileStatus.pathSuffix:sub(1,1)
+      if fileStatus.type == 'FILE'
+        and firstChar ~= '.'
+        and firstChar ~= '_'
+        and fileStatus.pathSuffix:find('.parquet')
+      then
         rdds[#rdds+1] = self:parquet(path .. '/' .. fileStatus.pathSuffix):rdd()
       end
     end
