@@ -1,4 +1,11 @@
-## [0.1.5-1] - 2017-12-12
+## [0.1.6] - 2017-12-31
+### Added:
+- Support reading and union merging a directory of Parquet files.
+
+### Fixed:
+- Hide files starting with dot or underscore during data directory enumeration.
+
+## [0.1.5] - 2017-12-10
 ### Added:
 - Support reading a Parquet file into an RDD. Supports both local files and WebHDFS.
 
