@@ -1,3 +1,7 @@
+## [0.1.7] - 2018-09-15
+### Changed:
+- Upgrade to Stuart 0.1.7
+
 ## [0.1.6] - 2017-12-31
 ### Added:
 - Support reading and union merging a directory of Parquet files.
