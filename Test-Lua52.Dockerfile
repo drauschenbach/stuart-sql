@@ -10,7 +10,6 @@ RUN make bootstrap
 # Install LuaRocks modules required for testing
 RUN luarocks install busted
 RUN luarocks install middleclass
-RUN luarocks install moses
 RUN luarocks install parquet
 RUN luarocks install stuart
 RUN luarocks install uuid
