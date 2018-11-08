@@ -1,16 +1,16 @@
-local Builder = require 'stuart-sql.SparkSession_Builder'
-local class = require 'middleclass'
-local DataFrameReader = require 'stuart-sql.DataFrameReader'
+local class = require 'stuart.class'
 
-local SparkSession = class('SparkSession')
+local SparkSession = class.new('SparkSession')
 
-function SparkSession:initialize(sparkContext, _, _, extensions)
+function SparkSession:__init(sparkContext, _, _, extensions)
   self.sparkContext = sparkContext
   self.extensions = extensions
+  local DataFrameReader = require 'stuart-sql.DataFrameReader'
   self.read = DataFrameReader:new(self)
 end
 
 function SparkSession.builder()
+  local Builder = require 'stuart-sql.SparkSession_Builder'
   return Builder:new()
 end
 

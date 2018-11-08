@@ -1,8 +1,8 @@
 package = "stuart-sql"
-version = "0.1.6-0"
+version = "1.0.0-0"
 source = {
-   url = "https://github.com/BixData/stuart-sql/archive/0.1.6-0.tar.gz",
-   dir = "stuart-sql-0.1.6-0"
+   url = "https://github.com/BixData/stuart-sql/archive/1.0.0-0.tar.gz",
+   dir = "stuart-sql-1.0.0-0"
 }
 description = {
    summary = "A pure Lua implementation of Spark SQL",
@@ -17,10 +17,9 @@ description = {
 }
 dependencies = {
    "lua >= 5.1, < 5.3",
-   "middleclass <= 4.1-0",
    "parquet >= 0.8.0-3, < 0.8.1",
-   "stuart >= 0.1.6",
-   "uuid <= 0.2-1"
+   "stuart ~> 1.0.0",
+   "uuid ~> 0.2"
 }
 build = {
    type = "builtin",
