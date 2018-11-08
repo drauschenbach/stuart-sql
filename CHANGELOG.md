@@ -1,3 +1,7 @@
+## [Unreleased]
+### Changed:
+- Upgrade to Stuart 1.0.0
+
 ## [0.1.7] - 2018-09-15
 ### Changed:
 - Upgrade to Stuart 0.1.7

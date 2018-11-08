@@ -1,10 +1,8 @@
-local class = require 'middleclass'
-local fileSystemFactory = require 'stuart.fileSystemFactory'
-local parquet = require 'parquet'
+local class = require 'stuart.class'
 
-local DataFrameReader = class('DataFrameReader')
+local DataFrameReader = class.new('DataFrameReader')
 
-function DataFrameReader:initialize(sparkSession)
+function DataFrameReader:__init(sparkSession)
   self.sparkSession = sparkSession
 end
 
@@ -20,6 +18,7 @@ end
 
 function DataFrameReader:parquet(path)
   self:format('parquet')
+  local fileSystemFactory = require 'stuart.fileSystemFactory'
   local fs, openPath = fileSystemFactory.createForOpenPath(path)
   if fs:isDirectory(openPath) then
     local fileStatuses = fs:listStatus(openPath)
@@ -43,6 +42,7 @@ function DataFrameReader:parquet(path)
   end
   
   local buffer = fs:open(openPath)
+  local parquet = require 'parquet'
   local reader = parquet.ParquetReader.openString(buffer)
   local cursor = reader:getCursor()
   

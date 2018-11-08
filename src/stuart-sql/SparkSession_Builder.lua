@@ -1,11 +1,8 @@
-local class = require 'middleclass'
-local SparkConf = require 'stuart.SparkConf'
-local SparkContext = require 'stuart.Context'
-local uuid = require 'uuid'
+local class = require 'stuart.class'
 
-local SparkSession_Builder = class('SparkSession_Builder')
+local SparkSession_Builder = class.new('SparkSession_Builder')
 
-function SparkSession_Builder:initialize()
+function SparkSession_Builder:__init()
   self.options = {}
 end
 
@@ -34,9 +31,8 @@ function SparkSession_Builder:master(master)
 end
 
 function SparkSession_Builder:getOrCreate()
-  local SparkSession = require 'stuart-sql.SparkSession'
-  
   -- If the current thread does not have an active session, get it from the global session.
+  local SparkSession = require 'stuart-sql.SparkSession'
   local session = SparkSession.getDefaultSession()
   if session ~= nil and not session.sparkContext:isStopped() then
     --options.foreach { case (k, v) => session.sessionState.conf.setConfString(k, v) }
@@ -50,13 +46,16 @@ function SparkSession_Builder:getOrCreate()
   local sparkContext = self.userSuppliedContext
   if sparkContext == nil then
     -- set app name if not given
+    local uuid = require 'uuid'
     local randomAppName = uuid()
+    local SparkConf = require 'stuart.SparkConf'
     local sparkConf = SparkConf:new()
     for k,v in pairs(self.options) do sparkConf:set(k, v) end
     if not sparkConf:contains('spark.app.name') then
       sparkConf:setAppName(randomAppName)
     end
     --TODO local sc = SparkContext:getOrCreate(sparkConf)
+    local SparkContext = require 'stuart.Context'
     local sc = SparkContext:new(sparkConf)
     for k,v in pairs(self.options) do sc.conf:set(k, v) end
     if not sc.conf:contains('spark.app.name') then
