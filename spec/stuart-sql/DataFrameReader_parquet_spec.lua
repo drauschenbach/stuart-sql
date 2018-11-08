@@ -9,6 +9,8 @@ describe('DataFrameReader.parquet()', function()
   describe(filename, function()
   
     it('centroids load', function()
+      local has_parquet, _ = pcall(require, 'parquet')
+      if not has_parquet then return pending('No parquet module is available for testing') end
       local session = SparkSession.builder():getOrCreate()
       local centroidsDataFrame = session.read:parquet('spec-fixtures/' .. filename)
       local centroids = centroidsDataFrame:rdd():collect()
