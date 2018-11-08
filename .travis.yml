@@ -18,6 +18,10 @@ install:
   - luarocks install luacheck
   - luarocks install stuart
   - luarocks install uuid
+  - if [[ "$LUA" == "lua=5.1"    ]]; then luarocks install parquet; fi
+  - if [[ "$LUA" == "lua=5.2"    ]]; then luarocks install parquet; fi
+  - if [[ "$LUA" == "luajit=2.0" ]]; then luarocks install parquet; fi
+  - if [[ "$LUA" == "luajit=2.1" ]]; then luarocks install parquet; fi
 
 script:
   - luacheck --std max+busted --codes src spec --no-self --ignore 213 311 611 631
