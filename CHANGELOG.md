@@ -1,6 +1,7 @@
 ## [1.0.0] - 2018-11-08
 ### Added:
 - [#8](https://github.com/BixData/stuart/issues/8) Support Lua 5.3 by dropping formal Parquet module dependency
+- [#10](https://github.com/BixData/stuart/issues/10) Publish to npmjs.com to the jsDeliver CDN
 
 ### Changed:
 - Upgrade to Stuart 1.0.0
