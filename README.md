@@ -1,12 +1,14 @@
-# Stuart SQL
+<img align="right" src="http://downloadicons.net/sites/default/files/mouse-icon-86497.png" width="70">
 
-<img src="http://downloadicons.net/sites/default/files/mouse-icon-86497.png" width="100">
+## Stuart SQL
 
 A native Lua implementation of [Spark SQL](https://spark.apache.org/docs/2.2.0/sql-programming-guide.html).
 
 This is a companion module for [Stuart](https://github.com/BixData/stuart), the Spark runtime for embedding and edge computing.
 
 ![Build Status](https://api.travis-ci.org/BixData/stuart-sql.svg?branch=master)
+[![License](http://img.shields.io/badge/Licence-Apache%202.0-blue.svg)](LICENSE)
+[![Lua](https://img.shields.io/badge/Lua-5.1%20|%205.2%20|%205.3%20|%20JIT%202.0%20|%20JIT%202.1%20|%20Fengari%20|%20GopherLua-blue.svg)]()
 
 ## Getting Started
 
@@ -14,6 +16,12 @@ This is a companion module for [Stuart](https://github.com/BixData/stuart), the 
 
 ```sh
 $ luarocks install stuart-sql
+```
+
+If you are using Lua < 5.3 and also want to work with Parquet files, then:
+
+```sh
+$ luarocks install parquet
 ```
 
 ## Using

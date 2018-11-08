@@ -1,4 +1,7 @@
 ## [Unreleased]
+### Added:
+- [#8](https://github.com/BixData/stuart/issues/8) Support Lua 5.3 by dropping formal Parquet module dependency
+
 ### Changed:
 - Upgrade to Stuart 1.0.0
 

@@ -42,7 +42,8 @@ function DataFrameReader:parquet(path)
   end
   
   local buffer = fs:open(openPath)
-  local parquet = require 'parquet'
+  local has_parquet, parquet = pcall(require, 'parquet')
+  assert(has_parquet)
   local reader = parquet.ParquetReader.openString(buffer)
   local cursor = reader:getCursor()
   

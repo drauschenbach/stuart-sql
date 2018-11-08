@@ -17,7 +17,6 @@ description = {
 }
 dependencies = {
    "lua >= 5.1, < 5.3",
-   "parquet >= 0.8.0-3, < 0.8.1",
    "stuart ~> 1.0.0",
    "uuid ~> 0.2"
 }
