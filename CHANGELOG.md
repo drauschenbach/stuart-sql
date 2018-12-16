@@ -1,4 +1,4 @@
-## [Unreleased]
+## [2.0.0] - 2018-12-16
 ### Changed
 - Upgraded to Stuart 2.0.0
 
