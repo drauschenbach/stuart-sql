@@ -1,8 +1,8 @@
 local class = require 'stuart.class'
 
-local SparkSession_Builder = class.new('SparkSession_Builder')
+local SparkSession_Builder = class.new()
 
-function SparkSession_Builder:__init()
+function SparkSession_Builder:_init()
   self.options = {}
 end
 
@@ -49,14 +49,14 @@ function SparkSession_Builder:getOrCreate()
     local uuid = require 'uuid'
     local randomAppName = uuid()
     local SparkConf = require 'stuart.SparkConf'
-    local sparkConf = SparkConf:new()
+    local sparkConf = SparkConf.new()
     for k,v in pairs(self.options) do sparkConf:set(k, v) end
     if not sparkConf:contains('spark.app.name') then
       sparkConf:setAppName(randomAppName)
     end
     --TODO local sc = SparkContext:getOrCreate(sparkConf)
     local SparkContext = require 'stuart.Context'
-    local sc = SparkContext:new(sparkConf)
+    local sc = SparkContext.new(sparkConf)
     for k,v in pairs(self.options) do sc.conf:set(k, v) end
     if not sc.conf:contains('spark.app.name') then
       sc.conf:setAppName(randomAppName)
@@ -65,7 +65,7 @@ function SparkSession_Builder:getOrCreate()
   end
   
   local extensions = nil
-  session = SparkSession:new(sparkContext, nil, nil, extensions)
+  session = SparkSession.new(sparkContext, nil, nil, extensions)
   --options.foreach { case (k, v) => session.sessionState.conf.setConfString(k, v) }
   SparkSession.setDefaultSession(session)
   
