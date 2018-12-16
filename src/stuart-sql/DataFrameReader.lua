@@ -1,8 +1,8 @@
 local class = require 'stuart.class'
 
-local DataFrameReader = class.new('DataFrameReader')
+local DataFrameReader = class.new()
 
-function DataFrameReader:__init(sparkSession)
+function DataFrameReader:_init(sparkSession)
   self.sparkSession = sparkSession
 end
 
